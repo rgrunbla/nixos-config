@@ -7,7 +7,7 @@
 
   users.users.remy = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "wireshark" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "wireshark" "uinput"]; # Enable ‘sudo’ for the user.
   };
 
   #  home-manager.useUserPackages = true;

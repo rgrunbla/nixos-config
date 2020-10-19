@@ -3,10 +3,11 @@
 {
 
   imports = [
-    ../users/rgrunbla/base.nix
+    ../users/remy/base.nix
     ../services/wpa_supplicant.nix
     ../services/sway.nix
     ../services/redshift.nix
+    ../services/netevent.nix
   ];
 
   nixpkgs.config = {
@@ -32,6 +33,7 @@
     grim
     inkscape
     gimp
+    imv
     # Web
     firefox-wayland
     # PDFs

@@ -6,7 +6,7 @@
       ../services/systemd-boot.nix
       ../services/localization.nix
       ../services/nix.nix
-      #../services/ssh.nix
+      ../services/ssh.nix
       #../services/ntp.nix
       #../services/dns.nix
     ];
@@ -57,7 +57,7 @@
 
   environment.variables = {
     "EDITOR" = "vim";
-    "VISUAL" = "code";
+    "VISUAL" = "code --wait";
   };
 
   # not used

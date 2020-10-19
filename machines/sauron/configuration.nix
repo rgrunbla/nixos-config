@@ -30,5 +30,5 @@
   };
 
   # compatible NixOS release
-  system.stateVersion = "unstable";
+  system.stateVersion = "20.09";
 }
