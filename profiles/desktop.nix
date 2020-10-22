@@ -29,17 +29,22 @@
     # Social
     mattermost-desktop
     thunderbird
-    # Images
+    # Media & Images
     grim
     inkscape
     gimp
     imv
+    mpv
     # Web
     firefox-wayland
     torbrowser
     torsocks
     # PDFs
     evince
+    # Development
+    gnumake
+    # FIXME
+    gnome3.adwaita-icon-theme
   ];
 
   # Enable sound.
