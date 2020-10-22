@@ -36,6 +36,8 @@
     imv
     # Web
     firefox-wayland
+    torbrowser
+    torsocks
     # PDFs
     evince
   ];
