@@ -43,6 +43,7 @@
     evince
     # Development
     gnumake
+    nixpkgs-fmt
     # FIXME
     gnome3.adwaita-icon-theme
   ];
@@ -78,5 +79,15 @@
   # Screen Sharing
   services.pipewire.enable = true;
   services.pipewire.socketActivation = true;
+
+  # Kernel Customization
+  #boot.kernelPatches = [ {
+  #  name = "wifi-debug";
+  #  patch = null;
+  #  extraConfig = ''
+  #          MAC80211_DEBUGFS y
+  #        '';
+  #  } ];
+
 
 }
