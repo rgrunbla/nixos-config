@@ -36,7 +36,7 @@
     imv
     mpv
     # Web
-    firefox-wayland
+    ungoogled-chromium
     torbrowser
     torsocks
     # PDFs
@@ -72,22 +72,36 @@
   hardware.opengl.enable = true;
 
   # Prevent shutdown when pressing the power button
-  services.logind.extraConfig = 
+  services.logind.extraConfig =
     "HandlePowerKey=suspend"
-  ; 
+  ;
 
   # Screen Sharing
   services.pipewire.enable = true;
   services.pipewire.socketActivation = true;
 
-  # Kernel Customization
-  #boot.kernelPatches = [ {
-  #  name = "wifi-debug";
-  #  patch = null;
-  #  extraConfig = ''
-  #          MAC80211_DEBUGFS y
-  #        '';
-  #  } ];
+  # Chromium
+  programs.chromium = {
+    enable = true;
+    # Imperatively installed extensions will seamlessly merge with these.
+    # Removing extensions here will remove them from chromium, no matter how
+    # they were installed.
+    #defaultSearchProviderSearchURL = "https://duckduckgo.com/?q={searchTerms}";
+    extensions = [
+      "naepdomgkenhinolocfifgehidddafch" # browserpass-ce
+      "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
+    ];
+  };
+  
+
+    # Kernel Customization
+    #boot.kernelPatches = [ {
+    #  name = "wifi-debug";
+    #  patch = null;
+    #  extraConfig = ''
+    #          MAC80211_DEBUGFS y
+    #        '';
+    #  } ];
 
 
-}
+  }
