@@ -10,11 +10,8 @@
     ../services/netevent.nix
   ];
 
-  nixpkgs.config = {
-    allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-      "vscode"
-    ];
-  };
+
+  nixpkgs.config.allowUnfree = true;
 
   # install packages
   environment.systemPackages = with pkgs; [
@@ -44,6 +41,9 @@
     # Development
     gnumake
     nixpkgs-fmt
+    # Screen Sharing & Visio
+    obs-studio
+    zoom-us
     # FIXME
     gnome3.adwaita-icon-theme
   ];
@@ -86,22 +86,32 @@
     # Imperatively installed extensions will seamlessly merge with these.
     # Removing extensions here will remove them from chromium, no matter how
     # they were installed.
-    #defaultSearchProviderSearchURL = "https://duckduckgo.com/?q={searchTerms}";
+    defaultSearchProviderSearchURL = "https://google.fr/?q={searchTerms}";
+
     extensions = [
       "naepdomgkenhinolocfifgehidddafch" # browserpass-ce
       "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
     ];
   };
-  
-
-    # Kernel Customization
-    #boot.kernelPatches = [ {
-    #  name = "wifi-debug";
-    #  patch = null;
-    #  extraConfig = ''
-    #          MAC80211_DEBUGFS y
-    #        '';
-    #  } ];
 
 
-  }
+  # Obs Screen Sharing
+  boot.extraModulePackages = [
+    config.boot.kernelPackages.v4l2loopback
+  ];
+
+  boot.kernelModules = [
+    "v4l2loopback"
+  ];
+
+  # Kernel Customization
+  #boot.kernelPatches = [ {
+  #  name = "wifi-debug";
+  #  patch = null;
+  #  extraConfig = ''
+  #          MAC80211_DEBUGFS y
+  #        '';
+  #  } ];
+
+
+}
