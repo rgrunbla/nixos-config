@@ -13,4 +13,7 @@
     ctrl_interface=/run/wpa_supplicant
     ctrl_interface_group=wheel
   '';
+
+  networking.wireless.userControlled.enable = true;
+
 }
