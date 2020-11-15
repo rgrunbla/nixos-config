@@ -2,7 +2,7 @@
 {
   imports =
     [
-      #  <home-manager/nixos>
+      ../nixos-secrets/remy.nix
     ];
 
   users.users.remy = {
