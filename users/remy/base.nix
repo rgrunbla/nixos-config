@@ -2,7 +2,7 @@
 {
   imports =
     [
-      ../nixos-secrets/remy.nix
+      ../../nixos-secrets/remy.nix
     ];
 
   users.users.remy = {
