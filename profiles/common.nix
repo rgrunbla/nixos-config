@@ -3,12 +3,10 @@
 {
   imports =
     [
-      ../services/systemd-boot.nix
       ../services/localization.nix
       ../services/nix.nix
       ../services/ssh.nix
-      #../services/ntp.nix
-      #../services/dns.nix
+      ../users/remy/base.nix
     ];
 
   # mount tmpfs on /tmp
@@ -25,7 +23,6 @@
     telnet
     whois
     mtr
-    #siege
     file
     lsof
     inotify-tools
@@ -36,17 +33,11 @@
     zip
     unzip
     rsync
-    #restic
     ripgrep
     gopass
-    #micro
-    #tealdeer
-    screen
     tree
     dfc
     pwgen
-    jq
-    yq
     vim
     tmux
     _0x0
