@@ -57,7 +57,4 @@
   #documentation.man.enable = false;
   documentation.info.enable = false;
   documentation.doc.enable = false;
-
-  # copy the system configuration into nix-store
-  system.copySystemConfiguration = true;
 }

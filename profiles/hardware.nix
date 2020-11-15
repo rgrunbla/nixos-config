@@ -23,4 +23,7 @@
     lm_sensors
     smartmontools
   ];
+
+  # copy the system configuration into nix-store
+  system.copySystemConfiguration = true;
 }
