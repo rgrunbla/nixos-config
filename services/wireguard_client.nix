@@ -11,16 +11,15 @@
       # Path to the private key file.
       privateKeyFile = "${../nixos-secrets/wireguard_sauron_private.key}";
 
+      allowedIPsAsRoutes = false;
+
       peers = [
         # For a client configuration, one peer entry for the server will suffice.
         {
           # Public key of the server (not a file path).
           publicKey = "iqk2Yxf8aKi6vTRsDMOuwAnOGtPGLIZEIUNegyMSgn0=";
 
-          # Forward all the traffic via VPN.
           allowedIPs = [ "0.0.0.0/0" ];
-          # Or forward only particular subnets
-          #allowedIPs = [ "10.100.0.1" "91.108.12.0/22" ];
 
           # Set this to the server IP and port.
           endpoint = "91.121.179.94:51820";
