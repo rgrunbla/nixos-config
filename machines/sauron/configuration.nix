@@ -7,6 +7,7 @@
       ../../profiles/hardware.nix
       ../../profiles/common.nix
       ../../profiles/desktop.nix
+      ../../services/wireguard_client.nix
     ];
 
   boot.loader.grub.device = "/dev/sda";

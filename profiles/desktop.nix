@@ -34,13 +34,13 @@
     mpv
     # Web
     ungoogled-chromium
-    torbrowser
     torsocks
     # PDFs
     evince
     # Development
     gnumake
     nixpkgs-fmt
+    kvm
     # Screen Sharing & Visio
     obs-studio
     zoom-us
