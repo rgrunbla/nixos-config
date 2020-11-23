@@ -27,7 +27,7 @@
     defaultGateway = "10.0.0.1";
     defaultGateway6 = "2001:41d0:1:f45e::2";
 
-    nameservers = [ "10.0.0.1" "2001:41d0:1:f45e::2" ];
+    nameservers = [ "10.0.0.2" "2001:41d0:1:f45e::3" ];
 
     firewall = {
       allowedTCPPorts = [ 80 ];
@@ -37,9 +37,9 @@
   services.nginx = {
     enable = true;
     recommendedProxySettings = true;
-    virtualHosts."auberon.grunblatt.org" = {
+    virtualHosts."upload.grunblatt.org" = {
       listen = [{ "addr" = "10.0.0.3"; "port" = 80; }];
-      root = "/data/auberon.grunblatt.org";
+      root = "/data/upload.grunblatt.org";
     };
   };
 

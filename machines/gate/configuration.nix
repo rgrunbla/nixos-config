@@ -43,7 +43,7 @@
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
 
-    virtualHosts."auberon.grunblatt.org" = {
+    virtualHosts."upload.grunblatt.org" = {
       enableACME = true;
       forceSSL = true;
       locations."/" = {
