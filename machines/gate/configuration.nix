@@ -35,6 +35,9 @@
     };
   };
 
+  security.acme.email = "remy@grunblatt.org";
+  security.acme.acceptTerms = true;
+
   services.nginx = {
     enable = true;
     recommendedProxySettings = true;
