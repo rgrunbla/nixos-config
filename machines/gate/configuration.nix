@@ -5,6 +5,7 @@
     [
       ../../profiles/common.nix
       ../../services/wireguard_server.nix
+      ../../services/unbound.nix
     ];
 
   # use latest kernel to have best performance

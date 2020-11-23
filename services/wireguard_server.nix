@@ -20,7 +20,8 @@
       };
 
       firewall = {
-        allowedUDPPorts = [ 51820 ];
+        allowedUDPPorts = [ 53 51820 ];
+        allowedTCPPorts = [ 53 ];
       };
 
       wireguard = {
