@@ -18,9 +18,6 @@
   # Update intel microcode
   hardware.cpu.intel.updateMicrocode = true;
 
-  # use latest kernel to have best performance
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-
   networking = {
     hostName = "sauron";
     domain = "lan";

@@ -4,12 +4,10 @@
   imports =
     [
       ../../profiles/common.nix
-      ../../services/wireguard_server.nix
-      ../../services/unbound.nix
     ];
 
   networking = {
-    hostName = "gate";
+    hostName = "auberon";
     domain = "lan";
 
     firewall.enable = true;
@@ -17,37 +15,48 @@
     usePredictableInterfaceNames = false;
 
     interfaces.eth0.ipv4.addresses = [{
-      address = "10.0.0.2";
+      address = "10.0.0.3";
       prefixLength = 24;
     }];
 
     interfaces.eth0.ipv6.addresses = [{
-      address = "2001:41d0:1:f45e::3";
+      address = "2001:41d0:1:f45e::4";
       prefixLength = 64;
     }];
 
     defaultGateway = "10.0.0.1";
     defaultGateway6 = "2001:41d0:1:f45e::2";
+
     nameservers = [ "10.0.0.1" "2001:41d0:1:f45e::2" ];
 
     firewall = {
-      allowedTCPPorts = [ 80 443 ];
+      allowedTCPPorts = [ 80 ];
     };
   };
 
   services.nginx = {
     enable = true;
     recommendedProxySettings = true;
-    recommendedTlsSettings = true;
-
     virtualHosts."auberon.grunblatt.org" = {
-      enableACME = true;
-      forceSSL = true;
-      locations."/" = {
-        proxyPass = "http://10.0.0.3:80";
-      };
+      listen = [{ "addr" = "10.0.0.3"; "port" = 80; }];
+      root = "/data/auberon.grunblatt.org";
     };
+  };
 
+  services.matterbridge = {
+    enable = true;
+    configPath = "/etc/matterbridge.toml";
+    user = "nginx";
+    group = "nginx";
+  };
+
+  environment.etc = {
+    "matterbridge.toml" = {
+      mode = "0660";
+      source = ../../nixos-secrets/auberon_matterbridge.toml;
+      group = "nginx";
+      user = "nginx";
+    };
   };
 
   # compatible NixOS release

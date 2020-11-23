@@ -54,7 +54,13 @@
   # not used
   documentation.enable = false;
   documentation.nixos.enable = false;
-  #documentation.man.enable = false;
+  documentation.man.enable = false;
   documentation.info.enable = false;
   documentation.doc.enable = false;
+
+  # use latest kernel to have best performance
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
+  # Enably timesyncd
+  services.timesyncd.enable = lib.mkDefault true;
 }

@@ -33,7 +33,7 @@
     imv
     mpv
     # Web
-    ungoogled-chromium
+    chromium
     torsocks
     # PDFs
     evince
