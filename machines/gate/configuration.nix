@@ -51,6 +51,17 @@
       };
     };
 
+    virtualHosts."remy.grunblatt.org" = {
+      enableACME = true;
+      forceSSL = true;
+      locations."/" = {
+        proxyPass = "http://10.0.0.4:80";
+      };
+      locations."/redeploy" = {
+        proxyPass = "http://10.0.0.4:9000/hooks/redeploy-webhook";
+      };
+    };
+
   };
 
   # compatible NixOS release

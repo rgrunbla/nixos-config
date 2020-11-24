@@ -22,6 +22,7 @@
     tcpdump
     telnet
     whois
+    gnumake
     mtr
     file
     lsof
