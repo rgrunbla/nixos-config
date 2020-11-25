@@ -83,19 +83,19 @@ in
   environment.etc = {
     "laconia_deploy.key" = {
       mode = "0600";
-      source = ../../nixos-secrets/laconia_deploy.key;
+      source = ../../nixos-secrets/laconia/deploy.key;
       group = "nginx";
       user = "nginx";
     };
     "laconia_deploy.pub" = {
       mode = "0660";
-      source = ../../nixos-secrets/laconia_deploy.pub;
+      source = ../../nixos-secrets/laconia/deploy.pub;
       group = "nginx";
       user = "nginx";
     };
     "hooks.json" = {
       mode = "0660";
-      source = ../../nixos-secrets/laconia_hooks.json;
+      source = ../../nixos-secrets/laconia/hooks.json;
       group = "nginx";
       user = "nginx";
     };

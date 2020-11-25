@@ -27,14 +27,10 @@
       wireguard = {
         interfaces = {
           wg0 = {
-            # Determines the IP address and subnet of the server's end of the tunnel interface.
             ips = [ "10.13.37.1/24" "2001:41d0:0001:f45e:8000::1" ];
 
-            # The port that Wireguard listens to. Must be accessible by the client.
             listenPort = 51820;
 
-            # This allows the wireguard server to route your traffic to the internet and hence be like a VPN
-            # For this to work you have to set the dnsserver IP of your router (or dnsserver of choice) in your clients
             postSetup = ''
               ${pkgs.iptables}/bin/iptables -A FORWARD -i wg0 -j ACCEPT
               ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -s 10.13.37.0/24 -o eth0 -j MASQUERADE
@@ -42,7 +38,6 @@
               ${pkgs.iptables}/bin/ip6tables -t nat -A POSTROUTING -s 2001:41d0:0001:f45e:8000::1/65 -o eth0 -j MASQUERADE
             '';
 
-            # This undoes the above command
             postShutdown = ''
               ${pkgs.iptables}/bin/iptables -D FORWARD -i wg0 -j ACCEPT
               ${pkgs.iptables}/bin/iptables -t nat -D POSTROUTING -s 10.13.37.0/24 -o eth0 -j MASQUERADE
@@ -50,21 +45,18 @@
               ${pkgs.iptables}/bin/ip6tables -t nat -D POSTROUTING -s 2001:41d0:0001:f45e:8000::1/65 -o eth0 -j MASQUERADE
             '';
 
-            # Path to the private key file.
-            #
-            # Note: The private key can also be included inline via the privateKey option,
-            # but this makes the private key world-readable; thus, using privateKeyFile is
-            # recommended.
-            privateKeyFile = "${../nixos-secrets/wireguard_gate_private.key}";
+            privateKeyFile = "${../nixos-secrets/gate/wireguard_private.key}";
 
             peers = [
-              # List of allowed peers.
               {
                 # Sauron
-                # Public key of the peer (not a file path).
                 publicKey = "4xcf/dLyOix/B7ME9XpbWIbDbF4x4+E30dc1vIm7dRY=";
-                # List of IPs assigned to this peer within the tunnel subnet. Used to configure routing.
                 allowedIPs = [ "10.13.37.2/32" "2001:41d0:0001:f45e:8000::2/128" ];
+              }
+              {
+                # Rocinante
+                publicKey = "viz7+4zccEbq1axXjly99Tj2Kbk3S1CCRdl853hn1iw=";
+                allowedIPs = [ "10.13.37.3/32" "2001:41d0:0001:f45e:8000::3/128" ];
               }
             ];
           };

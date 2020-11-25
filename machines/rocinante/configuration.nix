@@ -18,7 +18,7 @@
   hardware.cpu.intel.updateMicrocode = true;
 
   networking = {
-    hostName = "sauron";
+    hostName = "rocinante";
     domain = "lan";
 
     firewall.enable = true;
@@ -26,12 +26,12 @@
     useDHCP = true;
   };
 
-# Wireguard
-networking.wg-quick.interfaces = {
+  # Wireguard
+  networking.wg-quick.interfaces = {
     wg0 = {
-      address = [ "10.13.37.2/24" "2001:41d0:0001:f45e:8000::2/65" ];
+      address = [ "10.13.37.3/24" "2001:41d0:0001:f45e:8000::3/65" ];
       dns = [ "10.13.37.1" "2001:41d0:0001:f45e:8000::1" ];
-      privateKeyFile = "${../../nixos-secrets/sauron/wireguard_private.key}";
+      privateKeyFile = "${../../nixos-secrets/rocinante/wireguard_private.key}";
 
       peers = [
         {

@@ -1,7 +1,7 @@
 { config, pkgs, lib, ... }:
 
 let
-  pubkey = import ./pubkey.nix;
+  pubkeys = import ./pubkeys.nix;
 in
 {
   services.openssh = {
@@ -10,6 +10,6 @@ in
     passwordAuthentication = lib.mkDefault false;
   };
 
-  users.extraUsers.root.openssh.authorizedKeys.keys = lib.mkDefault [ pubkey.remy ];
-  users.extraUsers.remy.openssh.authorizedKeys.keys = lib.mkDefault [ pubkey.remy ];
+  users.extraUsers.root.openssh.authorizedKeys.keys = pubkeys.remy ;
+  users.extraUsers.remy.openssh.authorizedKeys.keys = pubkeys.remy ;
 }

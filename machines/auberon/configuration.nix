@@ -53,7 +53,7 @@
   environment.etc = {
     "matterbridge.toml" = {
       mode = "0660";
-      source = ../../nixos-secrets/auberon_matterbridge.toml;
+      source = ../../nixos-secrets/auberon/matterbridge.toml;
       group = "nginx";
       user = "nginx";
     };
