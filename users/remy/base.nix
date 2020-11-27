@@ -14,7 +14,6 @@
   '';
 
   # Home-Manager
-
   home-manager.useUserPackages = true;
   home-manager.users.remy = {
     programs.git = {
@@ -34,13 +33,13 @@
     home.activation = {
       # Import GPG Keys
       gpg_import = ''
-          ${pkgs.gnupg}/bin/gpg --batch --import ${
-            ../../nixos-secrets/common/gnupg_private.key
-          }
-          ${pkgs.gnupg}/bin/gpg --batch --import ${
-            ../../nixos-secrets/common/gnupg_public.key
-          }
-        '';
+        ${pkgs.gnupg}/bin/gpg --batch --import ${
+          ../../nixos-secrets/common/gnupg_private.key
+        }
+        ${pkgs.gnupg}/bin/gpg --batch --import ${
+          ../../nixos-secrets/common/gnupg_public.key
+        }
+      '';
     };
 
     # Synchronize Passwords
@@ -78,6 +77,32 @@
       Timer = { OnCalendar = "0/1:00:00"; };
       Install = { WantedBy = [ "timers.target" ]; };
     };
-  };
 
+    # Browser settings
+    programs.browserpass = {
+      enable = true;
+      browsers = [ "firefox" ];
+    };
+
+    programs.firefox.enable = true;
+    programs.firefox.extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+      ublock-origin
+      browserpass
+    ];
+
+    programs.firefox.profiles =
+    let defaultSettings = {
+          "app.update.auto" = false;
+          "browser.startup.homepage" = "https://lobste.rs";
+          "browser.shell.checkDefaultBrowser" = false;
+          "identity.fxaccounts.account.device.name" = config.networking.hostName;
+          "signon.rememberSignons" = false;
+        };
+    in {
+      home = {
+        id = 0;
+        settings = defaultSettings ;
+      };
+    };
+  };
 }

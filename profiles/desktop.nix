@@ -8,7 +8,8 @@
     ../services/sway.nix
     ../services/redshift.nix
     ../services/netevent.nix
-    ../services/home-manager.nix
+    ../repositories/home-manager.nix
+    ../repositories/nur.nix
   ];
 
 
@@ -34,7 +35,6 @@
     imv
     mpv
     # Web
-    chromium
     torsocks
     # PDFs
     evince
@@ -46,6 +46,7 @@
     obs-studio
     zoom-us
     # FIXME
+    nix-index
     gnome3.adwaita-icon-theme
   ];
 
@@ -76,25 +77,6 @@
   services.logind.extraConfig =
     "HandlePowerKey=suspend"
   ;
-
-  # Screen Sharing
-  services.pipewire.enable = true;
-  services.pipewire.socketActivation = true;
-
-  # Chromium
-  programs.chromium = {
-    enable = true;
-    # Imperatively installed extensions will seamlessly merge with these.
-    # Removing extensions here will remove them from chromium, no matter how
-    # they were installed.
-    defaultSearchProviderSearchURL = "https://google.fr/?q={searchTerms}";
-
-    extensions = [
-      "naepdomgkenhinolocfifgehidddafch" # browserpass-ce
-      "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
-    ];
-  };
-
 
   # Obs Screen Sharing
   boot.extraModulePackages = [
