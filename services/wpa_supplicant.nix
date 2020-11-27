@@ -4,7 +4,7 @@
   # PSKs
   imports =
     [
-      ../nixos-secrets/wireless.nix
+      ../nixos-secrets/common/wireless.nix
     ];
 
   # Wi-Fi

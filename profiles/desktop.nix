@@ -8,6 +8,7 @@
     ../services/sway.nix
     ../services/redshift.nix
     ../services/netevent.nix
+    ../services/home-manager.nix
   ];
 
 
