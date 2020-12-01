@@ -1,13 +1,21 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, options, ... }:
 
 {
+
+  nixpkgs.overlays = [
+    ( import ../overlays/packages.nix )
+  ];
+
   imports =
     [
       ../services/localization.nix
       ../services/nix.nix
       ../services/ssh.nix
       ../users/remy/base.nix
+      ../users/root/base.nix
     ];
+
+  nix.trustedUsers = [ "root" "remy" ];
 
   # mount tmpfs on /tmp
   boot.tmpOnTmpfs = lib.mkDefault true;
@@ -43,6 +51,8 @@
     tmux
     _0x0
     gitAndTools.gitFull
+   # linuxHeaders
+    linuxPackages.bpftrace
   ];
 
   programs.bash.enableCompletion = true;
@@ -60,6 +70,7 @@
   documentation.doc.enable = false;
 
   # use latest kernel to have best performance
+
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Enably timesyncd

@@ -88,6 +88,10 @@
     programs.firefox.extensions = with pkgs.nur.repos.rycee.firefox-addons; [
       ublock-origin
       browserpass
+      buster-captcha-solver
+      clearurls
+      i-dont-care-about-cookies
+      octotree
     ];
 
     programs.firefox.profiles =
