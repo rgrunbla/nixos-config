@@ -3,7 +3,7 @@
 {
 
   nixpkgs.overlays = [
-    ( import ../overlays/packages.nix )
+    #( import ../overlays/packages.nix )
   ];
 
   imports =
@@ -51,8 +51,9 @@
     tmux
     _0x0
     gitAndTools.gitFull
-   # linuxHeaders
-    linuxPackages.bpftrace
+    linuxHeaders
+   # linuxPackages.bpftrace
+    linuxPackages.bcc
   ];
 
   programs.bash.enableCompletion = true;

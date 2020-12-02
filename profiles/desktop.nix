@@ -34,6 +34,7 @@
     gimp
     imv
     mpv
+    youtube-dl
     # Web
     torsocks
     # PDFs
@@ -45,9 +46,11 @@
     # Screen Sharing & Visio
     obs-studio
     zoom-us
-    # FIXME
     nix-index
+    bind
     gnome3.adwaita-icon-theme
+    # Python
+    python3
   ];
 
   # Enable sound.
