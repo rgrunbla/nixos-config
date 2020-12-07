@@ -9,7 +9,12 @@
       ../../profiles/desktop.nix
     ];
 
-  boot.loader.grub.device = "/dev/sda";
+  boot.initrd.luks.devices = {
+    root =    {
+      device = "/dev/disk/by-uuid/0349558e-d5ca-4cc4-bbce-f028c12255da";
+      preLVM = true;
+    };
+  };
 
   # no access time and continuous TRIM for SSD
   fileSystems."/".options = [ "noatime" "discard" ];

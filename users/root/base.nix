@@ -1,6 +1,10 @@
 { config, pkgs, lib, ... }: {
 
 
+  imports = [
+    ../../repositories/home-manager.nix
+  ];
+
   nix.buildMachines = [
     {
       hostName = "medina.grunblatt.org";
