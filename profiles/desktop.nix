@@ -12,6 +12,8 @@
     ../repositories/nur.nix
   ];
 
+  # Auto Upgrade
+  autoUpgrade.enable = true;
 
   nixpkgs.config.allowUnfree = true;
 
