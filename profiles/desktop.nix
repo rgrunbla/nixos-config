@@ -13,7 +13,7 @@
   ];
 
   # Auto Upgrade
-  autoUpgrade.enable = true;
+  system.autoUpgrade.enable = true;
 
   nixpkgs.config.allowUnfree = true;
 
