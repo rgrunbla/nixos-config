@@ -51,8 +51,10 @@
     nix-index
     bind
     gnome3.adwaita-icon-theme
-    # Python
+    # Dev
     python3
+    rustup
+    hyperfine
   ];
 
   # Enable sound.
