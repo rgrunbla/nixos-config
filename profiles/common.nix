@@ -11,7 +11,7 @@
       ../services/localization.nix
       ../services/nix.nix
       ../services/ssh.nix
-      ../users/remy/base.nix
+      ../nixos-secrets/common/remy.nix
       ../users/root/base.nix
     ];
 

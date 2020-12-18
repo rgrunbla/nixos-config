@@ -1,8 +1,7 @@
 { config, pkgs, lib, writeShellScriptBin, ... }:
 let update_website = pkgs.writeShellScriptBin "update_website"
   ''
-    cd /data/
-    REPO="Blog"
+    REPO="/data/Blog"
     REPO_URL="git@github.com:rgrunbla/Blog.git"
     KEY_PATH="/etc/laconia_deploy.key"
 

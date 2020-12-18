@@ -3,6 +3,7 @@
 {
 
   imports = [
+    ../users/remy/base.nix
     ../services/systemd-boot.nix
     ../services/wpa_supplicant.nix
     ../services/sway.nix

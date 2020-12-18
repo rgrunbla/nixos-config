@@ -85,6 +85,7 @@
     };
 
     programs.firefox.enable = true;
+    programs.firefox.package = pkgs.firefox-wayland;
     programs.firefox.extensions = with pkgs.nur.repos.rycee.firefox-addons; [
       ublock-origin
       browserpass
