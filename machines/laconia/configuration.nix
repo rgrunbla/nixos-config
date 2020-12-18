@@ -67,7 +67,7 @@ in
       Restart = "on-failure";
     };
     wantedBy = ["multi-user.target"];
-    path = [ pkgs.openssh pkgs.python38Packages.pelican pkgs.git pkgs.bash pkgs.gnumake update_website ];
+    path = [ pkgs.openssh pkgs.python38Packages.pelican pkgs.python38Packages.markdown pkgs.git pkgs.bash pkgs.gnumake update_website ];
   };
 
 
