@@ -8,7 +8,6 @@
   };
 
   # HackRf
-
   services.udev.extraRules = ''
     SUBSYSTEM=="usb",ATTRS{idVendor}=="1d50",ATTRS{idProduct}=="6089",OWNER="remy"
   '';
@@ -48,24 +47,26 @@
       Service = {
         Type = "oneshot";
         Environment = "PATH=${pkgs.git}/bin";
-        ExecStart = let
-          script = ''
-            #!${pkgs.bash}/bin/bash
-            USER="rgrunbla"
-            DOMAIN="github.com"
-            REPO="passwords"
-            REPO_URL="git@$DOMAIN:$USER/$REPO.git"
-            REPO_PATH=~/.password-store/
+        ExecStart =
+          let
+            script = ''
+              #!${pkgs.bash}/bin/bash
+              USER="rgrunbla"
+              DOMAIN="github.com"
+              REPO="passwords"
+              REPO_URL="git@$DOMAIN:$USER/$REPO.git"
+              REPO_PATH=~/.password-store/
 
-            if [ ! -d $REPO_PATH ]
-              then
-                git clone --recursive $REPO_URL $REPO_PATH
-              else
-                cd $REPO_PATH
-                git pull
-            fi
-          '';
-        in "${
+              if [ ! -d $REPO_PATH ]
+                then
+                  git clone --recursive $REPO_URL $REPO_PATH
+                else
+                  cd $REPO_PATH
+                  git pull
+              fi
+            '';
+          in
+          "${
           pkgs.writeScriptBin "synchronize-passwords" script
         }/bin/synchronize-passwords";
         IOSchedulingClass = "idle";
@@ -96,18 +97,83 @@
     ];
 
     programs.firefox.profiles =
-    let defaultSettings = {
-          "app.update.auto" = false;
-          "browser.startup.homepage" = "https://lobste.rs";
-          "browser.shell.checkDefaultBrowser" = false;
-          "identity.fxaccounts.account.device.name" = config.networking.hostName;
-          "signon.rememberSignons" = false;
-        };
-    in {
-      home = {
-        id = 0;
-        settings = defaultSettings ;
+      let defaultSettings = {
+        "app.update.auto" = false;
+        "browser.startup.homepage" = "https://lobste.rs";
+        "browser.shell.checkDefaultBrowser" = false;
+        "identity.fxaccounts.account.device.name" = config.networking.hostName;
+        "signon.rememberSignons" = false;
       };
+      in
+      {
+        home = {
+          id = 0;
+          settings = defaultSettings;
+        };
+      };
+
+    # Sway
+    wayland.windowManager.sway = {
+      extraConfig = ''
+      seat seat0 xcursor_theme "Breeze"
+      exec_always gsettings set org.gnome.desktop.interface cursor-theme "Breeze"
+      '';
+      enable = true;
+      wrapperFeatures.gtk = true;
+      config.output = {
+        eDP-1 = { pos = "0 0 res 3840x2160 scale 1.5"; };
+      };
+
+      config.input = {
+        "*" = {
+          xkb_layout = "fr";
+          xkb_variant = "bepo";
+        };
+
+      };
+
+      config.menu = "bemenu-run";
+      config.modifier = "Mod4";
+      config.terminal = "alacritty";
+
+      config.keybindings =
+        let modifier = "Mod4";
+        in
+        lib.mkOptionDefault
+          {
+            "${modifier}+quotedbl" = "workspace number 1";
+            "${modifier}+guillemotleft" = "workspace number 2";
+            "${modifier}+guillemotright" = "workspace number 3";
+            "${modifier}+parenleft" = "workspace number 4";
+            "${modifier}+parenright" = "workspace number 5";
+            "${modifier}+at" = "workspace number 6";
+            "${modifier}+plus" = "workspace number 7";
+            "${modifier}+minus" = "workspace number 8";
+            "${modifier}+slash" = "workspace number 9";
+            "${modifier}+asterisk" = "workspace number 10";
+
+            "${modifier}+Shift+quotedbl" = "move container to workspace number 1";
+            "${modifier}+Shift+guillemotleft" = "move container to workspace number 2";
+            "${modifier}+Shift+guillemotright" = "move container to workspace number 3";
+            "${modifier}+Shift+parenleft" =  "move container to workspace number 4";
+            "${modifier}+Shift+parenright" =  "move container to workspace number 5";
+            "${modifier}+Shift+at" = "move container to workspace number 6";
+            "${modifier}+Shift+plus" = "move container to workspace number 7";
+            "${modifier}+Shift+minus" = "move container to workspace number 8";
+            "${modifier}+Shift+slash" = "move container to workspace number 9";
+            "${modifier}+Shift+asterisk" = "move container to workspace number 10";
+          };
     };
+
+    home.packages = with pkgs;
+      [
+        terminus_font
+        swaylock
+        swayidle
+        wl-clipboard
+        mako
+        alacritty
+        bemenu
+      ];
   };
 }

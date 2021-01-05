@@ -3,7 +3,7 @@
 {
 
   nixpkgs.overlays = [
-    #( import ../overlays/packages.nix )
+    ( import ../overlays/packages.nix )
   ];
 
   imports =
