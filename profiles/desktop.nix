@@ -48,15 +48,40 @@
     # Screen Sharing & Visio
     obs-studio
     zoom-us
+    # Nix
     nix-index
+    nixfmt
+    # Network
     bind
-    gnome3.adwaita-icon-theme
     # Dev
     python3
     rustup
     hyperfine
+    # GUIs
+    gnome3.adwaita-icon-theme
     nerdfonts
   ];
+
+
+  environment.sessionVariables = {
+    MOZ_ENABLE_WAYLAND = "1";
+    XDG_CURRENT_DESKTOP = "sway"; # TODO: Do we need this in non-sway setups?
+    XDG_SESSION_TYPE = "wayland";
+  };
+
+
+  services.pipewire.enable = true;
+
+  xdg = {
+    portal = {
+      enable = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-wlr
+        xdg-desktop-portal-gtk
+      ];
+      gtkUsePortal = true;
+    };
+  };
 
   # Enable sound.
   sound.enable = true;
@@ -81,19 +106,20 @@
   # Graphical User Environment
   hardware.opengl.enable = true;
 
-  # Prevent shutdown when pressing the power button
-  services.logind.extraConfig =
-    "HandlePowerKey=suspend"
-  ;
-
-  # Obs Screen Sharing
-  boot.extraModulePackages = [
-    config.boot.kernelPackages.v4l2loopback
+  boot.extraModulePackages = with config.boot.kernelPackages; [
+    v4l2loopback # Obs Screen Sharing
+    acpi_call # Power Management
   ];
 
   boot.kernelModules = [
-    "v4l2loopback"
+    "v4l2loopback" # Obs Screen Sharing
+    "acpi_call" # Power Management
   ];
+
+  # Power Management
+  services.tlp.enable = true;
+  powerManagement.powertop.enable = true;
+  services.logind.extraConfig = "HandlePowerKey=suspend";
 
   # Kernel Customization
   #boot.kernelPatches = [ {
@@ -103,6 +129,5 @@
   #          MAC80211_DEBUGFS y
   #        '';
   #  } ];
-
 
 }

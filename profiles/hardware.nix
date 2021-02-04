@@ -22,7 +22,10 @@
     dmidecode
     lm_sensors
     smartmontools
+    fwupd
   ];
+
+  services.fwupd.enable = true;
 
   # copy the system configuration into nix-store
   system.copySystemConfiguration = true;

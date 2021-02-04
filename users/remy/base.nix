@@ -10,6 +10,14 @@
   # HackRf
   services.udev.extraRules = ''
     SUBSYSTEM=="usb",ATTRS{idVendor}=="1d50",ATTRS{idProduct}=="6089",OWNER="remy"
+    # Rule for all ZSA keyboards
+    SUBSYSTEM=="usb", ATTR{idVendor}=="3297", GROUP="plugdev"
+    # Rule for the Moonlander
+    SUBSYSTEM=="usb", ATTR{idVendor}=="3297", ATTR{idProduct}=="1969", GROUP="plugdev"
+    # Rule for the Ergodox EZ
+    SUBSYSTEM=="usb", ATTR{idVendor}=="feed", ATTR{idProduct}=="1307", GROUP="plugdev"
+    # Rule for the Planck EZ
+    SUBSYSTEM=="usb", ATTR{idVendor}=="feed", ATTR{idProduct}=="6060", GROUP="plugdev"
   '';
 
   # Home-Manager
@@ -20,6 +28,8 @@
       userName = "Rémy Grünblatt";
       userEmail = "remy@grunblatt.org";
     };
+
+    home.stateVersion = "21.03";
 
     home.file = {
       # SSH
@@ -86,7 +96,10 @@
     };
 
     programs.firefox.enable = true;
-    programs.firefox.package = pkgs.firefox-wayland;
+    programs.firefox.package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
+      forceWayland = true;
+    };
+
     programs.firefox.extensions = with pkgs.nur.repos.rycee.firefox-addons; [
       ublock-origin
       browserpass
@@ -113,15 +126,21 @@
       };
 
     # Sway
+    home.sessionVariables = {
+      MOZ_ENABLE_WAYLAND = 1;
+      XDG_CURRENT_DESKTOP = "sway";
+      XDG_SESSION_TYPE = "wayland";
+    };
+
     wayland.windowManager.sway = {
       extraConfig = ''
-      seat seat0 xcursor_theme "Breeze"
-      exec_always gsettings set org.gnome.desktop.interface cursor-theme "Breeze"
+        exec_always systemctl --user import-environment
       '';
       enable = true;
       wrapperFeatures.gtk = true;
       config.output = {
         eDP-1 = { pos = "0 0 res 3840x2160 scale 1.5"; };
+        DP-5 = { pos = "2560 0 res 3840x2160 scale 1"; };
       };
 
       config.input = {
@@ -155,8 +174,8 @@
             "${modifier}+Shift+quotedbl" = "move container to workspace number 1";
             "${modifier}+Shift+guillemotleft" = "move container to workspace number 2";
             "${modifier}+Shift+guillemotright" = "move container to workspace number 3";
-            "${modifier}+Shift+parenleft" =  "move container to workspace number 4";
-            "${modifier}+Shift+parenright" =  "move container to workspace number 5";
+            "${modifier}+Shift+parenleft" = "move container to workspace number 4";
+            "${modifier}+Shift+parenright" = "move container to workspace number 5";
             "${modifier}+Shift+at" = "move container to workspace number 6";
             "${modifier}+Shift+plus" = "move container to workspace number 7";
             "${modifier}+Shift+minus" = "move container to workspace number 8";
