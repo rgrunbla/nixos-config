@@ -4,6 +4,7 @@
 
   nixpkgs.overlays = [
     ( import ../overlays/packages.nix )
+    ( import (builtins.fetchTarball "https://github.com/colemickens/nixpkgs-wayland/archive/master.tar.gz") )
   ];
 
   imports =
@@ -13,6 +14,7 @@
       ../services/ssh.nix
       ../nixos-secrets/common/remy.nix
       ../users/root/base.nix
+      ../cachix.nix
     ];
 
   nix.trustedUsers = [ "root" "remy" ];
@@ -52,6 +54,7 @@
     _0x0
     gitAndTools.gitFull
     linuxHeaders
+    cachix
    # linuxPackages.bpftrace
     linuxPackages.bcc
   ];

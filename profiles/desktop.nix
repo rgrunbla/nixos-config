@@ -18,50 +18,65 @@
   nixpkgs.config.allowUnfree = true;
 
   # install packages
-  environment.systemPackages = with pkgs; [
-    # Terminal
-    alacritty
-    # Sound
-    pavucontrol
-    # Editors
-    libreoffice
-    texlive.combined.scheme-full
-    vscode
-    # Social
-    mattermost-desktop
-    thunderbird
-    # Media & Images
-    grim
-    inkscape
-    gimp
-    imv
-    mpv
-    youtube-dl
-    # Web
-    torsocks
-    # PDFs
-    evince
-    # Development
-    gnumake
-    nixpkgs-fmt
-    kvm
-    # Screen Sharing & Visio
-    obs-studio
-    zoom-us
-    # Nix
-    nix-index
-    nixfmt
-    # Network
-    bind
-    # Dev
-    python3
-    rustup
-    hyperfine
-    # GUIs
-    gnome3.adwaita-icon-theme
-    nerdfonts
-  ];
-
+  environment.systemPackages = with pkgs;
+    let
+      extensions = (with pkgs.vscode-extensions; [
+        vscode-extensions.ms-vsliveshare.vsliveshare
+        vscode-extensions.matklad.rust-analyzer
+        bbenoist.Nix
+        ms-python.python
+        jnoortheen.nix-ide
+      ]);
+      vscode-with-extensions = pkgs.vscode-with-extensions.override {
+        vscodeExtensions = extensions;
+      };
+    in
+    [
+      # Terminal
+      alacritty
+      # Sound
+      pavucontrol
+      # Editors
+      libreoffice
+      texlive.combined.scheme-full
+      # Social
+      mattermost-desktop
+      thunderbird
+      signal-desktop
+      # Media & Images
+      grim
+      inkscape
+      gimp
+      imv
+      vlc
+      mpv
+      youtube-dl
+      # Web
+      torsocks
+      # PDFs
+      evince
+      # Development
+      gnumake
+      nixpkgs-fmt
+      kvm
+      # Screen Sharing & Visio
+      obs-studio
+      zoom-us
+      vscode-with-extensions
+      # Nix
+      nix-index
+      nixfmt
+      # Network
+      bind
+      # Dev
+      python3
+      rustup
+      hyperfine
+      gcc
+      # GUIs
+      gnome3.adwaita-icon-theme
+      nerdfonts
+    ];
 
   environment.sessionVariables = {
     MOZ_ENABLE_WAYLAND = "1";
@@ -69,7 +84,8 @@
     XDG_SESSION_TYPE = "wayland";
   };
 
-
+  networking.firewall.allowedTCPPorts =[8010];
+  services.avahi.enable = true;
   services.pipewire.enable = true;
 
   xdg = {
@@ -118,8 +134,13 @@
 
   # Power Management
   services.tlp.enable = true;
-  powerManagement.powertop.enable = true;
   services.logind.extraConfig = "HandlePowerKey=suspend";
+
+  services.tlp.settings = {
+        USB_AUTOSUSPEND = 0;
+        TLP_DEFAULT_MODE="BAT";
+        CPU_SCALING_GOVERNOR_ON_AC="auto";
+  };
 
   # Kernel Customization
   #boot.kernelPatches = [ {
@@ -129,5 +150,4 @@
   #          MAC80211_DEBUGFS y
   #        '';
   #  } ];
-
 }

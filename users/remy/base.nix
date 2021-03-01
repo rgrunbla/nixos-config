@@ -4,8 +4,13 @@
   users.users.remy = {
     isNormalUser = true;
     extraGroups =
-      [ "wheel" "wireshark" "uinput" ]; # Enable ‘sudo’ for the user.
+      [ "wheel" "wireshark" "uinput" "adbusers" "docker" ]; # Enable ‘sudo’ for the user.
   };
+
+
+  virtualisation.docker.enable = true;
+
+  programs.adb.enable = true;
 
   # HackRf
   services.udev.extraRules = ''
@@ -18,6 +23,8 @@
     SUBSYSTEM=="usb", ATTR{idVendor}=="feed", ATTR{idProduct}=="1307", GROUP="plugdev"
     # Rule for the Planck EZ
     SUBSYSTEM=="usb", ATTR{idVendor}=="feed", ATTR{idProduct}=="6060", GROUP="plugdev"
+    ACTION=="add", SUBSYSTEMS=="usb", ATTRS{idProduct}=="1532", ATTRS{idVendor}=="0046", TEST=="power/control", ATTR{power/control}="on"
+    ACTION=="add", SUBSYSTEMS=="usb", ATTRS{idProduct}=="3297", ATTRS{idVendor}=="1969", TEST=="power/control", ATTR{power/control}="on"
   '';
 
   # Home-Manager
@@ -193,6 +200,7 @@
         mako
         alacritty
         bemenu
+        deluge
       ];
   };
 }
