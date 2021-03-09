@@ -53,6 +53,7 @@
       youtube-dl
       # Web
       torsocks
+      chromium
       # PDFs
       evince
       # Development
@@ -63,9 +64,11 @@
       obs-studio
       zoom-us
       vscode-with-extensions
+      teams
       # Nix
       nix-index
       nixfmt
+      ccache
       # Network
       bind
       # Dev
@@ -141,6 +144,9 @@
         TLP_DEFAULT_MODE="BAT";
         CPU_SCALING_GOVERNOR_ON_AC="auto";
   };
+
+  # CCache
+  programs.ccache.enable = true;
 
   # Kernel Customization
   #boot.kernelPatches = [ {
