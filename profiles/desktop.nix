@@ -82,26 +82,45 @@
       nerdfonts
     ];
 
-  environment.sessionVariables = {
-    MOZ_ENABLE_WAYLAND = "1";
-    XDG_CURRENT_DESKTOP = "sway"; # TODO: Do we need this in non-sway setups?
-    XDG_SESSION_TYPE = "wayland";
+
+  specialisation = {
+    wayland.configuration =
+      {
+        system.nixos.tags = [ "wayland" ];
+
+        environment.sessionVariables = {
+          MOZ_ENABLE_WAYLAND = "1";
+          XDG_CURRENT_DESKTOP = "sway"; # TODO: Do we need this in non-sway setups?
+          XDG_SESSION_TYPE = "wayland";
+        };
+
+
+        xdg = {
+          portal = {
+            enable = true;
+            extraPortals = with pkgs; [
+              xdg-desktop-portal-wlr
+              xdg-desktop-portal-gtk
+            ];
+            gtkUsePortal = true;
+          };
+        };
+
+
+        environment.variables.AUDIO = "hdmi1";
+        systemd.services.mpd.environment.AUDIO = "hdmi1";
+      };
+
+    xorg.configuration =
+      {
+        system.nixos.tags = [ "xorg" ];
+
+      };
   };
 
-  networking.firewall.allowedTCPPorts =[8010];
+  networking.firewall.allowedTCPPorts = [ 8010 ];
   services.avahi.enable = true;
   services.pipewire.enable = true;
-
-  xdg = {
-    portal = {
-      enable = true;
-      extraPortals = with pkgs; [
-        xdg-desktop-portal-wlr
-        xdg-desktop-portal-gtk
-      ];
-      gtkUsePortal = true;
-    };
-  };
 
   # Enable sound.
   sound.enable = true;
@@ -141,9 +160,9 @@
   services.logind.extraConfig = "HandlePowerKey=suspend";
 
   services.tlp.settings = {
-        USB_AUTOSUSPEND = 0;
-        TLP_DEFAULT_MODE="BAT";
-        CPU_SCALING_GOVERNOR_ON_AC="auto";
+    USB_AUTOSUSPEND = 0;
+    TLP_DEFAULT_MODE = "BAT";
+    CPU_SCALING_GOVERNOR_ON_AC = "auto";
   };
 
   # CCache
