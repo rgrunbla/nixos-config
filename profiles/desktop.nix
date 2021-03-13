@@ -12,6 +12,10 @@
     ../repositories/nur.nix
   ];
 
+
+
+  system.copySystemConfiguration = true;
+
   # Auto Upgrade
   system.autoUpgrade.enable = true;
 
@@ -79,9 +83,17 @@
       gcc
       # GUIs
       gnome3.adwaita-icon-theme
-      nerdfonts
     ];
 
+  fonts.fonts = with pkgs; [
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
+    liberation_ttf
+    nerdfonts
+    font-awesome
+    terminus_font
+  ];
 
   specialisation = {
     wayland.configuration =
@@ -94,7 +106,6 @@
           XDG_SESSION_TYPE = "wayland";
         };
 
-
         xdg = {
           portal = {
             enable = true;
@@ -106,15 +117,41 @@
           };
         };
 
-
-        environment.variables.AUDIO = "hdmi1";
-        systemd.services.mpd.environment.AUDIO = "hdmi1";
       };
 
     xorg.configuration =
       {
         system.nixos.tags = [ "xorg" ];
+        services.xserver = {
+          enable = true;
 
+          layout = "fr";
+          xkbVariant = "bepo";
+
+          # Enable touchpad support.
+          libinput = {
+            enable = true;
+          };
+
+          desktopManager = {
+            xterm.enable = false;
+          };
+
+          displayManager = {
+            defaultSession = "none+i3";
+            lightdm.enable = true;
+          };
+
+          windowManager.i3 = {
+            enable = true;
+            extraPackages = with pkgs; [
+              dmenu #application launcher most people use
+              i3status # gives you the default i3 status bar
+              i3lock #default i3 screen locker
+              i3blocks #if you are planning on using i3blocks over i3status
+            ];
+          };
+        };
       };
   };
 

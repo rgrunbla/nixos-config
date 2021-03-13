@@ -29,6 +29,202 @@
 
   # Home-Manager
   home-manager.useUserPackages = true;
+  specialisation = {
+    wayland.configuration =
+      {
+        # Sway
+        home-manager.users.remy = {
+          home.packages = with pkgs;
+            [
+              swaylock
+              swayidle
+              wl-clipboard
+              mako
+            ];
+
+          home.sessionVariables = {
+            MOZ_ENABLE_WAYLAND = 1;
+            XDG_CURRENT_DESKTOP = "sway";
+            XDG_SESSION_TYPE = "wayland";
+          };
+
+          programs = {
+            firefox = {
+              package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
+                forceWayland = true;
+              };
+            };
+
+            waybar = {
+              enable = true;
+              settings = [{
+                layer = "top";
+                position = "bottom";
+                height = 24;
+                modules-left = [ "sway/workspaces" "sway/mode" ];
+                modules-center = [ "sway/window" ];
+                modules-right = [ "custom/stopwatch" "network" "pulseaudio" "battery" "clock" "tray" ];
+                modules = {
+                  "sway/workspaces" = {
+                    format = "{icon}";
+                    format-icons = {
+                      "urgent" = "";
+                      "focused" = "";
+                      "default" = "";
+                    };
+                  };
+                  "custom/stopwatch" = {
+                    format = "   {} ";
+                    exec = "~/.config/waybar/sw";
+                    on-click = "~/.config/waybar/sw";
+                    on-click-right = "~/.config/waybar/sw --stop";
+                    return-type = "json";
+                  };
+                  "network" = {
+                    format-wifi = " {essid} ({signalStrength}%)";
+                    format-ethernet = " {ifname}: {ipaddr}/{cidr}";
+                    format-disconnected = "Disconnected ⚠";
+                  };
+                  "pulseaudio" = {
+                    format = "{icon} {volume}%";
+                    format-bluetooth = "{icon} {volume}%";
+                    format-muted = " 0%";
+                    format-icons = {
+                      "headphones" = "";
+                      "handsfree" = "";
+                      "headset" = "";
+                      "phone" = "";
+                      "portable" = "";
+                      "car" = "";
+                      "default" = [ "" "" ];
+                    };
+                  };
+                  "battery" = {
+                    bat = "BAT0";
+                    states = {
+                      "warning" = 30;
+                      "critical" = 15;
+                    };
+                    format = "{icon} {capacity}%";
+                    format-icons = [ "" "" "" "" "" ];
+                  };
+                  "clock" = {
+                    format = "{:%a %d %b %H:%M:%S}";
+                  };
+                };
+              }];
+              # style = (builtins.readFile ./configs/waybar/style.css);
+            };
+          };
+
+          wayland.windowManager.sway = {
+            extraConfig = ''
+              exec_always systemctl --user import-environment
+            '';
+            enable = true;
+            wrapperFeatures.gtk = true;
+            config.output = {
+              eDP-1 = { pos = "0 0 res 3840x2160 scale 1"; };
+              DP-5 = { pos = "2560 0 res 3840x2160 scale 1"; };
+            };
+
+            config.input = {
+              "*" = {
+                xkb_layout = "fr";
+                xkb_variant = "bepo";
+              };
+
+            };
+
+            config.menu = "bemenu-run";
+            config.modifier = "Mod4";
+            config.terminal = "alacritty";
+
+            config.bars = [ ];
+
+            config.keybindings =
+              let modifier = "Mod4";
+              in
+              lib.mkOptionDefault
+                {
+                  "${modifier}+quotedbl" = "workspace number 1";
+                  "${modifier}+guillemotleft" = "workspace number 2";
+                  "${modifier}+guillemotright" = "workspace number 3";
+                  "${modifier}+parenleft" = "workspace number 4";
+                  "${modifier}+parenright" = "workspace number 5";
+                  "${modifier}+at" = "workspace number 6";
+                  "${modifier}+plus" = "workspace number 7";
+                  "${modifier}+minus" = "workspace number 8";
+                  "${modifier}+slash" = "workspace number 9";
+                  "${modifier}+asterisk" = "workspace number 10";
+
+                  "${modifier}+Shift+quotedbl" = "move container to workspace number 1";
+                  "${modifier}+Shift+guillemotleft" = "move container to workspace number 2";
+                  "${modifier}+Shift+guillemotright" = "move container to workspace number 3";
+                  "${modifier}+Shift+parenleft" = "move container to workspace number 4";
+                  "${modifier}+Shift+parenright" = "move container to workspace number 5";
+                  "${modifier}+Shift+at" = "move container to workspace number 6";
+                  "${modifier}+Shift+plus" = "move container to workspace number 7";
+                  "${modifier}+Shift+minus" = "move container to workspace number 8";
+                  "${modifier}+Shift+slash" = "move container to workspace number 9";
+                  "${modifier}+Shift+asterisk" = "move container to workspace number 10";
+                };
+          };
+        };
+      };
+    xorg.configuration = {
+      home-manager.users.remy = {
+        xsession.windowManager.i3 =
+          let
+            mod = "Mod4";
+          in
+          {
+            enable = true;
+
+            config = {
+              modifier = mod;
+              menu = "bemenu-run";
+              terminal = "alacritty";
+              fonts = [ "DejaVu Sans Mono, FontAwesome 6" ];
+              keybindings =
+                let modifier = "Mod4";
+                in
+                lib.mkOptionDefault
+                  {
+                    "${modifier}+quotedbl" = "workspace number 1";
+                    "${modifier}+guillemotleft" = "workspace number 2";
+                    "${modifier}+guillemotright" = "workspace number 3";
+                    "${modifier}+parenleft" = "workspace number 4";
+                    "${modifier}+parenright" = "workspace number 5";
+                    "${modifier}+at" = "workspace number 6";
+                    "${modifier}+plus" = "workspace number 7";
+                    "${modifier}+minus" = "workspace number 8";
+                    "${modifier}+slash" = "workspace number 9";
+                    "${modifier}+asterisk" = "workspace number 10";
+
+                    "${modifier}+Shift+quotedbl" = "move container to workspace number 1";
+                    "${modifier}+Shift+guillemotleft" = "move container to workspace number 2";
+                    "${modifier}+Shift+guillemotright" = "move container to workspace number 3";
+                    "${modifier}+Shift+parenleft" = "move container to workspace number 4";
+                    "${modifier}+Shift+parenright" = "move container to workspace number 5";
+                    "${modifier}+Shift+at" = "move container to workspace number 6";
+                    "${modifier}+Shift+plus" = "move container to workspace number 7";
+                    "${modifier}+Shift+minus" = "move container to workspace number 8";
+                    "${modifier}+Shift+slash" = "move container to workspace number 9";
+                    "${modifier}+Shift+asterisk" = "move container to workspace number 10";
+                  };
+
+              bars = [
+                {
+                  position = "bottom";
+                }
+              ];
+            };
+          };
+      };
+    };
+  };
+
   home-manager.users.remy = {
     programs.git = {
       enable = true;
@@ -49,11 +245,11 @@
     home.activation = {
       # Import GPG Keys
       gpg_import = ''
-        ${pkgs.gnupg}/bin/gpg --batch --import ${
-          ../../nixos-secrets/common/gnupg_private.key
+                        ${pkgs.gnupg}/bin/gpg --batch --import ${
+        ../../nixos-secrets/common/gnupg_private.key
         }
-        ${pkgs.gnupg}/bin/gpg --batch --import ${
-          ../../nixos-secrets/common/gnupg_public.key
+                        ${pkgs.gnupg}/bin/gpg --batch --import ${
+        ../../nixos-secrets/common/gnupg_public.key
         }
       '';
     };
@@ -84,8 +280,8 @@
             '';
           in
           "${
-          pkgs.writeScriptBin "synchronize-passwords" script
-        }/bin/synchronize-passwords";
+pkgs.writeScriptBin "synchronize-passwords" script
+}/bin/synchronize-passwords";
         IOSchedulingClass = "idle";
       };
     };
@@ -96,108 +292,45 @@
       Install = { WantedBy = [ "timers.target" ]; };
     };
 
-    # Browser settings
-    programs.browserpass = {
-      enable = true;
-      browsers = [ "firefox" ];
-    };
-
-    programs.firefox.enable = true;
-    programs.firefox.package = pkgs.wrapFirefox pkgs.firefox-unwrapped {
-      forceWayland = true;
-    };
-
-    programs.firefox.extensions = with pkgs.nur.repos.rycee.firefox-addons; [
-      ublock-origin
-      browserpass
-      buster-captcha-solver
-      clearurls
-      i-dont-care-about-cookies
-      octotree
-    ];
-
-    programs.firefox.profiles =
-      let defaultSettings = {
-        "app.update.auto" = false;
-        "browser.startup.homepage" = "https://lobste.rs";
-        "browser.shell.checkDefaultBrowser" = false;
-        "identity.fxaccounts.account.device.name" = config.networking.hostName;
-        "signon.rememberSignons" = false;
+    programs = {
+      # Browser settings
+      browserpass = {
+        enable = true;
+        browsers = [ "firefox" ];
       };
-      in
-      {
-        home = {
-          id = 0;
-          settings = defaultSettings;
+
+      firefox.enable = true;
+
+      firefox.extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+        ublock-origin
+        browserpass
+        buster-captcha-solver
+        clearurls
+        i-dont-care-about-cookies
+        octotree
+      ];
+
+
+      firefox.profiles =
+        let defaultSettings = {
+          "app.update.auto" = false;
+          "browser.startup.homepage" = "https://lobste.rs";
+          "browser.shell.checkDefaultBrowser" = false;
+          "identity.fxaccounts.account.device.name" = config.networking.hostName;
+          "signon.rememberSignons" = false;
         };
-      };
-
-    # Sway
-    home.sessionVariables = {
-      MOZ_ENABLE_WAYLAND = 1;
-      XDG_CURRENT_DESKTOP = "sway";
-      XDG_SESSION_TYPE = "wayland";
-    };
-
-    wayland.windowManager.sway = {
-      extraConfig = ''
-        exec_always systemctl --user import-environment
-      '';
-      enable = true;
-      wrapperFeatures.gtk = true;
-      config.output = {
-        eDP-1 = { pos = "0 0 res 3840x2160 scale 1.5"; };
-        DP-5 = { pos = "2560 0 res 3840x2160 scale 1"; };
-      };
-
-      config.input = {
-        "*" = {
-          xkb_layout = "fr";
-          xkb_variant = "bepo";
-        };
-
-      };
-
-      config.menu = "bemenu-run";
-      config.modifier = "Mod4";
-      config.terminal = "alacritty";
-
-      config.keybindings =
-        let modifier = "Mod4";
         in
-        lib.mkOptionDefault
-          {
-            "${modifier}+quotedbl" = "workspace number 1";
-            "${modifier}+guillemotleft" = "workspace number 2";
-            "${modifier}+guillemotright" = "workspace number 3";
-            "${modifier}+parenleft" = "workspace number 4";
-            "${modifier}+parenright" = "workspace number 5";
-            "${modifier}+at" = "workspace number 6";
-            "${modifier}+plus" = "workspace number 7";
-            "${modifier}+minus" = "workspace number 8";
-            "${modifier}+slash" = "workspace number 9";
-            "${modifier}+asterisk" = "workspace number 10";
-
-            "${modifier}+Shift+quotedbl" = "move container to workspace number 1";
-            "${modifier}+Shift+guillemotleft" = "move container to workspace number 2";
-            "${modifier}+Shift+guillemotright" = "move container to workspace number 3";
-            "${modifier}+Shift+parenleft" = "move container to workspace number 4";
-            "${modifier}+Shift+parenright" = "move container to workspace number 5";
-            "${modifier}+Shift+at" = "move container to workspace number 6";
-            "${modifier}+Shift+plus" = "move container to workspace number 7";
-            "${modifier}+Shift+minus" = "move container to workspace number 8";
-            "${modifier}+Shift+slash" = "move container to workspace number 9";
-            "${modifier}+Shift+asterisk" = "move container to workspace number 10";
+        {
+          home = {
+            id = 0;
+            settings = defaultSettings;
           };
+        };
     };
 
     home.packages = with pkgs;
       [
         terminus_font
-        swaylock
-        swayidle
-        wl-clipboard
-        mako
         alacritty
         bemenu
         deluge
