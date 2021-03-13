@@ -26,6 +26,7 @@
         bbenoist.Nix
         ms-python.python
         jnoortheen.nix-ide
+        ms-vscode.cpptools
       ]);
       vscode-with-extensions = pkgs.vscode-with-extensions.override {
         vscodeExtensions = extensions;

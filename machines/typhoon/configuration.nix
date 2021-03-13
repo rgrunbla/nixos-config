@@ -7,6 +7,7 @@
       ../../profiles/hardware.nix
       ../../profiles/common.nix
       ../../profiles/desktop.nix
+      ../../profiles/work.nix
     ];
 
   boot.loader.efi.canTouchEfiVariables = true;
