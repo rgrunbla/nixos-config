@@ -31,6 +31,7 @@
         ms-python.python
         jnoortheen.nix-ide
         ms-vscode.cpptools
+        xaver.clang-format
       ]);
       vscode-with-extensions = pkgs.vscode-with-extensions.override {
         vscodeExtensions = extensions;
@@ -61,13 +62,14 @@
       chromium
       # PDFs
       evince
-      # Development
-      gnumake
-      nixpkgs-fmt
-      kvm
+      pdfpc
       # Screen Sharing & Visio
+      audacity
+      obs-v4l2sink
+      obs-wlrobs
       obs-studio
       zoom-us
+      skype
       vscode-with-extensions
       teams
       # Nix
@@ -77,10 +79,13 @@
       # Network
       bind
       # Dev
+      gnumake
+      clang
+      nixpkgs-fmt
+      kvm
       python3
       rustup
       hyperfine
-      gcc
       # GUIs
       gnome3.adwaita-icon-theme
     ];
@@ -157,6 +162,10 @@
 
   networking.firewall.allowedTCPPorts = [ 8010 ];
   services.avahi.enable = true;
+
+  # Early Oom
+  services.earlyoom.enable = true;
+
   services.pipewire.enable = true;
 
   # Enable sound.
