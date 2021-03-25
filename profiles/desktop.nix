@@ -38,6 +38,7 @@
       };
     in
     [
+      openconnect
       # Terminal
       alacritty
       # Sound

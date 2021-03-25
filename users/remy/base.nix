@@ -66,12 +66,7 @@
                 modules-right = [ "custom/stopwatch" "network" "pulseaudio" "battery" "clock" "tray" ];
                 modules = {
                   "sway/workspaces" = {
-                    format = "{icon}";
-                    format-icons = {
-                      "urgent" = "";
-                      "focused" = "";
-                      "default" = "";
-                    };
+                    format = "{index}";
                   };
                   "custom/stopwatch" = {
                     format = "   {} ";

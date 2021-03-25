@@ -5,4 +5,9 @@
   services.printing.drivers = with pkgs; [
     cups-toshiba-estudio
   ];
+
+   environment.systemPackages = with pkgs;
+   [
+     openconnect
+   ];
 }
