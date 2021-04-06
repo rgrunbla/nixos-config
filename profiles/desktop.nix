@@ -13,6 +13,9 @@
   ];
 
 
+programs.dconf.enable = true;
+services.gnome3.gnome-keyring.enable = true;
+services.gnome3.gnome-online-accounts.enable = true;
 
   system.copySystemConfiguration = true;
 
@@ -48,7 +51,7 @@
       texlive.combined.scheme-full
       # Social
       mattermost-desktop
-      thunderbird
+      mailspring
       signal-desktop
       # Media & Images
       grim
@@ -223,4 +226,5 @@
   #          MAC80211_DEBUGFS y
   #        '';
   #  } ];
+  
 }
