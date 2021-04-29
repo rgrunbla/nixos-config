@@ -99,9 +99,9 @@ services.gnome3.gnome-online-accounts.enable = true;
     noto-fonts-cjk
     noto-fonts-emoji
     liberation_ttf
-    nerdfonts
     font-awesome
     terminus_font
+    aileron
   ];
 
   specialisation = {
