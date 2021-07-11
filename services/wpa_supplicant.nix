@@ -16,5 +16,7 @@
   '';
 
   networking.wireless.userControlled.enable = true;
-
+  networking.wireless.interfaces = [
+    "wlo1"
+  ];
 }

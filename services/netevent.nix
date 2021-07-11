@@ -1,5 +1,5 @@
 { config, ... }:
 
 {
-	hardware.uinput.enable = true;
+  hardware.uinput.enable = true;
 }

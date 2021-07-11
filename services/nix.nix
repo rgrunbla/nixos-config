@@ -1,8 +1,9 @@
-{ config, ... }:
+{ pkgs, config, ... }:
 
 {
-  nix.useSandbox = true;
-  nix.sandboxPaths = [
-    "/var/cache/ccache"
+  environment.systemPackages = [
+    (pkgs.writeShellScriptBin "nixFlakes" ''
+      exec ${pkgs.nixUnstable}/bin/nix --experimental-features "nix-command flakes" "$@"
+    '')
   ];
 }

@@ -10,6 +10,6 @@ in
     passwordAuthentication = lib.mkDefault false;
   };
 
-  users.extraUsers.root.openssh.authorizedKeys.keys = pubkeys.remy ;
-  users.extraUsers.remy.openssh.authorizedKeys.keys = pubkeys.remy ;
+  users.extraUsers.root.openssh.authorizedKeys.keys = pubkeys.remy;
+  users.extraUsers.remy.openssh.authorizedKeys.keys = pubkeys.remy;
 }
